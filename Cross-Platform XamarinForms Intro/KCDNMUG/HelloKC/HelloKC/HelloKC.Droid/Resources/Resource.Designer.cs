@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("HelloCSharp.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("HelloKC.Droid.Resource", IsApplication=true)]
 
-namespace HelloCSharp.Droid
+namespace HelloKC.Droid
 {
 	
 	
@@ -45,7 +45,7 @@ namespace HelloCSharp.Droid
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int icon = 2130837504;
 			
 			static Drawable()
 			{
