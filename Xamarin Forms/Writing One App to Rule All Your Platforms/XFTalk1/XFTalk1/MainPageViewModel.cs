@@ -14,7 +14,10 @@ namespace XFTalk1
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public Random RandomNumberMachine { get; set; }
-		public string CurrentValue { get; set; }
+		public string CurrentValue
+		{
+			get { return LastValue.ToString(); }
+		}
 		public string ResultMessage { get; set; }
 		private Scores Scores { get; set; }
 		public string CurrentScore
@@ -100,7 +103,7 @@ namespace XFTalk1
 		{
 			CorrectGuesses += success ? 1 : 0;
 			TotalGuesses++;
-			CurrentValue = (LastValue = nextNumber).ToString();
+			LastValue = nextNumber;
 			ResultMessage = success ? "You Guessed Correct!" : "Wrong Answer!";
 
 			var ds = DependencyService.Get<IDataService>();
