@@ -18,8 +18,15 @@
 				<Label Text="{Binding CurrentScore}" />
 			</StackLayout>
 		</StackLayout>
-		<Button Text="High" Command="{Binding GuessHighCommand}" />
-		<Button Text="Low" Command="{Binding GuessLowCommand}"  />
+		<StackLayout>
+			<StackLayout.Orientation>
+				<OnPlatform x:TypeArguments="StackOrientation"
+										Android="Vertical" WinPhone="Horizontal" />
+			</StackLayout.Orientation>
+			<Button Text="High" Command="{Binding GuessHighCommand}" />
+			<Button Text="Low" Command="{Binding GuessLowCommand}"  />
+		</StackLayout>
+
 	</StackLayout>
 
 </ContentPage>
