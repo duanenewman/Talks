@@ -12,32 +12,7 @@ namespace XFTalk1
 		private Label message;
 		public App()
 		{
-
-			message = new Label
-			{
-				Text = "This space left intentionally blank",
-				FontSize = 24,
-				FontAttributes = FontAttributes.Bold,
-				TextColor = Color.Accent,
-				VerticalOptions = LayoutOptions.CenterAndExpand,
-				HorizontalOptions = LayoutOptions.CenterAndExpand,
-			};
-
-			var stack = new StackLayout();
-			stack.Children.Add(message);
-
-			var btn = new Button()
-			{
-				Text = "View message"
-			};
-
-			btn.Clicked += ViewMessageClicked;
-			stack.Children.Add(btn);
-
-			MainPage = new ContentPage
-			{
-				Content = stack
-			};
+			MainPage = new HelloXamlPage();
 		}
 
 		public void ViewMessageClicked(object sender, EventArgs args)
