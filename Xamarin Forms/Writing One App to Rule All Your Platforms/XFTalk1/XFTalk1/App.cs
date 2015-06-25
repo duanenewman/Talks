@@ -12,7 +12,7 @@ namespace XFTalk1
 		private Label message;
 		public App()
 		{
-			MainPage = new HelloXamlPage();
+			MainPage = new MainPage();
 		}
 
 		public void ViewMessageClicked(object sender, EventArgs args)
