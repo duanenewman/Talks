@@ -16,14 +16,40 @@ namespace XFTalk1
 		public Random RandomNumberMachine { get; set; }
 		public string CurrentValue { get; set; }
 		public string ResultMessage { get; set; }
-		public string CurrentScore { get; set; }
-		public int CorrectGuesses { get; set; }
-		public int TotalGuesses { get; set; }
-		public int LastValue { get; set; }
+		private Scores Scores { get; set; }
+		public string CurrentScore
+		{
+			get
+			{
+				return string.Format("{0} of {1} correct", CorrectGuesses, TotalGuesses);
+			}
+		}
+
+		public int CorrectGuesses
+		{
+			get { return Scores.CorrectGuesses; }
+			set { Scores.CorrectGuesses = value; }
+		}
+
+		public int TotalGuesses
+		{
+			get { return Scores.TotalGuesses; }
+			set { Scores.TotalGuesses = value; }
+		}
+
+		public int LastValue
+		{
+			get { return Scores.LastValue; }
+			set { Scores.LastValue = value; }
+		}
+
 
 		public MainPageViewModel()
 		{
 			RandomNumberMachine = new Random();
+			var ds = DependencyService.Get<IDataService>();
+			Scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Scores>(ds.GetScoreData());
+
 		}
 
 		private Command guessHighCommand;
@@ -76,7 +102,10 @@ namespace XFTalk1
 			TotalGuesses++;
 			CurrentValue = (LastValue = nextNumber).ToString();
 			ResultMessage = success ? "You Guessed Correct!" : "Wrong Answer!";
-			CurrentScore = string.Format("{0} of {1} correct", CorrectGuesses, TotalGuesses);
+
+			var ds = DependencyService.Get<IDataService>();
+			ds.SetScoreData(Newtonsoft.Json.JsonConvert.SerializeObject(Scores));
+
 			PropertyChanged(this, new PropertyChangedEventArgs(string.Empty));
 		}
 	}
