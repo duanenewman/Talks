@@ -9,15 +9,13 @@ Are you seeking the Holy Grail of Write Once Run Anywhere app development? Then 
 
 The below code will take you through the progression of steps taken during the talk (and any we didn't get to).
 
-1. Create a new project called ***XFTalk1***
-2. Upgrade the nuget packages (if you get errors, try running it a second time to resolve reference conflicts and locked files)
-
+* Create a new project called ***XFTalk1***
+* Upgrade the nuget packages (if you get errors, try running it a second time to resolve reference conflicts and locked files)
 		Update-Packages
 
 ## Demo 1 - Coded UI
 
-3. Modify ***App.cs*** by replacing the constructor with the following
-
+* Modify ***App.cs*** by replacing the constructor with the following
 		private Label message;
 		public App()
 		{
@@ -56,9 +54,8 @@ The below code will take you through the progression of steps taken during the t
 
 ## DEMO 2 - XAML UI
 
-2. Add new *Forms Xaml Page* called ***HelloXamlPage***
-3. Repalce the contents of the XAML page with:
-
+* Add new *Forms Xaml Page* named ***HelloXamlPage***
+* Repalce the contents of the XAML page with:
 ```
 <StackLayout>
 	<Label x:Name="message"
@@ -70,248 +67,269 @@ The below code will take you through the progression of steps taken during the t
 </StackLayout>
 ```
 
-4. In the code-behind for the new page add the following code:
-
+* In the code-behind for the new page add the following code:
 		public void ViewMessageClicked(object sender, EventArgs args)
 		{
 			message.Text = "Hello KCDC Developers (with XAML)!";
 		}
 
-5. Change the App.cs constructor to load the new page:
-
+* Change the App.cs constructor to load the new page:
 		MainPage = new HelloXamlPage();
 		
 ## DEMO 3 Hi/Lo Game
-# PHASE 1
+### PHASE 1
 
-MAINPAGE
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage …    x:Class="HiLoGame.MainPage">
-	<StackLayout>
-		<StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
-			<Label Text="Will the next number be high or low?"/>
-			<Label Text="{Binding CurrentValue}" HorizontalOptions="CenterAndExpand" />
-		</StackLayout>
-		<StackLayout>
-			<Label Text="{Binding ResultMessage}"
-					 VerticalOptions="CenterAndExpand"
-					 HorizontalOptions="CenterAndExpand" />
-			<StackLayout Orientation="Horizontal"
-					 VerticalOptions="CenterAndExpand"
-					 HorizontalOptions="CenterAndExpand">
-				<Label Text="Your score is: " />
-				<Label Text="{Binding CurrentScore}" />
-			</StackLayout>
-		</StackLayout>
-		<Button Text="High" Command="{Binding GuessHighCommand}" />
-		<Button Text="Low" Command="{Binding GuessLowCommand}"  />
+* Create a new *Forms Xaml Page* named *MainPage*
+* Replace the content with:
+```
+<StackLayout>
+	<StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" >
+		<Label Text="Will the next number be high or low?"/>
+		<Label Text="{Binding CurrentValue}" HorizontalOptions="CenterAndExpand" />
 	</StackLayout>
-</ContentPage>
+	<StackLayout>
+		<Label Text="{Binding ResultMessage}"
+				 VerticalOptions="CenterAndExpand"
+				 HorizontalOptions="CenterAndExpand" />
+		<StackLayout Orientation="Horizontal"
+				 VerticalOptions="CenterAndExpand"
+				 HorizontalOptions="CenterAndExpand">
+			<Label Text="Your score is: " />
+			<Label Text="{Binding CurrentScore}" />
+		</StackLayout>
+	</StackLayout>
+	<Button Text="High" Command="{Binding GuessHighCommand}" />
+	<Button Text="Low" Command="{Binding GuessLowCommand}"  />
+</StackLayout>
+```
 
-VIEW MODEL
-this.BindingContext = new MainPageViewModel();
--------
-public class MainPageViewModel : INotifyPropertyChanged
-{
-	public event PropertyChangedEventHandler PropertyChanged;
-
-	public Random RandomNumberMachine { get; set; }
-	public string CurrentValue { get; set; }
-	public string ResultMessage { get; set; }
-	public string CurrentScore { get; set; }
-	public int CorrectGuesses { get; set; }
-	public int TotalGuesses { get; set; }
-	public int LastValue { get; set; }
-	
-	public MainPageViewModel()
-	{
-		RandomNumberMachine = new Random();
-	}
-
-	private Command guessHighCommand;
-	public ICommand GuessHighCommand
-	{
-		get
+####VIEW MODEL
+* Create a new class named ***MainPageViewModel***
+		public class MainPageViewModel : INotifyPropertyChanged
 		{
-			return guessHighCommand ??
-			(guessHighCommand = new Command(ExecuteGuessHigh));
+			public event PropertyChangedEventHandler PropertyChanged;
+		
+			public Random RandomNumberMachine { get; set; }
+			public string CurrentValue { get; set; }
+			public string ResultMessage { get; set; }
+			public string CurrentScore { get; set; }
+			public int CorrectGuesses { get; set; }
+			public int TotalGuesses { get; set; }
+			public int LastValue { get; set; }
+			
+			public MainPageViewModel()
+			{
+				RandomNumberMachine = new Random();
+			}
+		
+			private Command guessHighCommand;
+			public ICommand GuessHighCommand
+			{
+				get
+				{
+					return guessHighCommand ??
+					(guessHighCommand = new Command(ExecuteGuessHigh));
+				}
+			}
+		
+			private void ExecuteGuessHigh()
+			{
+				var nextNumber = GetNextNumber(); //RandomNumberMachine.Next(0, 10);
+				var success = LastValue < nextNumber;
+				ShowResult(nextNumber, success);
+			}
+		
+			private Command guessLowCommand;
+			public ICommand GuessLowCommand
+			{
+				get
+				{
+					return guessLowCommand ??
+					(guessLowCommand = new Command(ExecuteGuessLow));
+				}
+			}
+		
+			private void ExecuteGuessLow()
+			{
+				var nextNumber = GetNextNumber(); //RandomNumberMachine.Next(0, 10);
+				var success = LastValue > nextNumber;
+				ShowResult(nextNumber, success);
+			}
+		
+			private int GetNextNumber()
+			{
+				var nextNumber = LastValue;
+				while (nextNumber == LastValue)
+				{
+					nextNumber = RandomNumberMachine.Next(0, 10);				
+				}
+				return nextNumber;
+			}
+		
+			public void ShowResult(int nextNumber, bool success)
+			{
+				CorrectGuesses += success ? 1 : 0;
+				TotalGuesses++;
+				CurrentValue = (LastValue = nextNumber).ToString();
+				ResultMessage = success ? "You Guessed Correct!" : "Wrong Answer!";
+				CurrentScore = string.Format("{0} of {1} correct", CorrectGuesses, TotalGuesses);
+				PropertyChanged(this, new PropertyChangedEventArgs(string.Empty));
+			}
 		}
-	}
 
-	private void ExecuteGuessHigh()
-	{
-		var nextNumber = GetNextNumber(); //RandomNumberMachine.Next(0, 10);
-		var success = LastValue < nextNumber;
-		ShowResult(nextNumber, success);
-	}
+#### Binding View to ViewModel
+* Add the following to the ***MainPage.xaml.cs*** constructor
+		this.BindingContext = new MainPageViewModel();
 
-	private Command guessLowCommand;
-	public ICommand GuessLowCommand
-	{
-		get
+###PHASE 2 - STORE LAST NUMBER AND SCORE
+* Add JSon.NET NuGet package to portable project
+		install-package newtonsoft.json
+		
+* Add a new interface called ***IDataService***		
+		public interface IDataService
 		{
-			return guessLowCommand ??
-			(guessLowCommand = new Command(ExecuteGuessLow));
+			string GetScoreData();
+			void SetScoreData(string data);
 		}
-	}
-
-	private void ExecuteGuessLow()
-	{
-		var nextNumber = GetNextNumber(); //RandomNumberMachine.Next(0, 10);
-		var success = LastValue > nextNumber;
-		ShowResult(nextNumber, success);
-	}
-
-	private int GetNextNumber()
-	{
-		var nextNumber = LastValue;
-		while (nextNumber == LastValue)
+* Add a new class called ***Scores***
+		public class Scores
 		{
-			nextNumber = RandomNumberMachine.Next(0, 10);				
+			public int CorrectGuesses { get; set; }
+			public int TotalGuesses { get; set; }
+			public int LastValue { get; set; }
 		}
-		return nextNumber;
-	}
+* Add ***Scores*** Property and update existing properties on ViewModel 
+		private Scores Scores { get; set; }
+		
+		public string CurrentScore
+		{
+			get
+			{
+				return string.Format("{0} of {1} correct", CorrectGuesses, TotalGuesses);
+			}
+		}
+		public int CorrectGuesses
+		{
+			get { return Scores.CorrectGuesses; }
+			set { Scores.CorrectGuesses = value; }
+		}
+		
+		public int TotalGuesses
+		{
+			get { return Scores.TotalGuesses; }
+			set { Scores.TotalGuesses = value; }
+		}
+		
+		public int LastValue
+		{
+			get { return Scores.LastValue; }
+			set { Scores.LastValue = value; }
+		}
 
-	public void ShowResult(int nextNumber, bool success)
-	{
-		CorrectGuesses += success ? 1 : 0;
-		TotalGuesses++;
-		CurrentValue = (LastValue = nextNumber).ToString();
-		ResultMessage = success ? "You Guessed Correct!" : "Wrong Answer!";
-		CurrentScore = string.Format("{0} of {1} correct", CorrectGuesses, TotalGuesses);
-		PropertyChanged(this, new PropertyChangedEventArgs(string.Empty));
-	}
-}
+* Initialize Scores object in constructor
+		var ds = DependencyService.Get<IDataService>();
+		Scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Scores>(ds.GetScoreData());
 
-PHASE 2 – STORE LAST NUMBER AND SCORE
-Add JSon.NET NuGet
+* Add IDataService call to ***ShowResult*** method
+		public void ShowResult(int nextNumber, bool success)
+		{
+			CorrectGuesses += success ? 1 : 0;
+			TotalGuesses++;
+			CurrentValue = (LastValue = nextNumber).ToString();
+			ResultMessage = success ? "You Guessed Correct!" : "Wrong Answer!";
 
-install-package newtonsoft.json
-ADD IDATASERVICE INTERFACE		
-public interface IDataService
-{
-	string GetScoreData();
-	void SetScoreData(string data);
-}
-ADD CLASS: SCORES
-public class Scores
-{
-	public int CorrectGuesses { get; set; }
-	public int TotalGuesses { get; set; }
-	public int LastValue { get; set; }
-}
-ADD PROPERTY & UPDATE OTHERS
-private Scores Scores { get; set; }
+			var ds = DependencyService.Get<IDataService>();
+			ds.SetScoreData(Newtonsoft.Json.JsonConvert.SerializeObject(Scores));
 
-public string CurrentScore
-{
-	get
-	{
-		return string.Format("{0} of {1} correct", CorrectGuesses, TotalGuesses);
-	}
-}
-public int CorrectGuesses
-{
-	get { return Scores.CorrectGuesses; }
-	set { Scores.CorrectGuesses = value; }
-}
-
-public int TotalGuesses
-{
-	get { return Scores.TotalGuesses; }
-	set { Scores.TotalGuesses = value; }
-}
-
-public int LastValue
-{
-	get { return Scores.LastValue; }
-	set { Scores.LastValue = value; }
-}
-CTOR
-var ds = DependencyService.Get<IDataService>();
-Scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Scores>(ds.GetScoreData());
-ADD TO SHOWRESULT METHOD (REPLACE CURRENTSCORE = …)
-var ds = DependencyService.Get<IDataService>();
-ds.SetScoreData(Newtonsoft.Json.JsonConvert.SerializeObject(Scores));
-ADD ANDROID IMPLEMENTATION
+			PropertyChanged(this, new PropertyChangedEventArgs(string.Empty));
+		}
+		
+### Add Android IDependencyService Implimentation
+* Create a new class in Android project called ***AndroidDataService***
+* Add the following before the namespace declaration: 
+```
 [assembly: Dependency(typeof(AndroidDataService))]
-public class AndroidDataService : IDataService
-{
-	readonly string scoreFilePath ;
-
-	public AndroidDataService()
-	{
-		scoreFilePath = System.IO.Path.Combine(
-System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), 
-"ScoreData");
-	}
-	public string GetScoreData()
-	{
-		if (System.IO.File.Exists(scoreFilePath))
+```
+* Set the class to:
+		public class AndroidDataService : IDataService
 		{
-			return System.IO.File.ReadAllText(scoreFilePath);
+			readonly string scoreFilePath ;
+		
+			public AndroidDataService()
+			{
+				scoreFilePath = System.IO.Path.Combine(
+					System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), 
+					"ScoreData");
+			}
+			public string GetScoreData()
+			{
+				if (System.IO.File.Exists(scoreFilePath))
+				{
+					return System.IO.File.ReadAllText(scoreFilePath);
+				}
+		
+				return "{}";
+			}
+		
+			public void SetScoreData(string data)
+			{
+				System.IO.File.WriteAllText(scoreFilePath, data);
+			}
+		}
+###Load blank values:
+* Update the ShowResults method to remove the setting of CurrentValue
+* Replace the CurrentValue property with:
+		public string CurrentValue
+		{
+			get { return LastValue.ToString(); }
 		}
 
-		return "{}";
-	}
+## Phase 3 - OnPlatform
 
-	public void SetScoreData(string data)
-	{
-		System.IO.File.WriteAllText(scoreFilePath, data);
-	}
-}
-LOADING BLANK VALUES
-ShowResults – move CurrentValue and CurrentScore to the property getter (KEEP LastValue!!)
-public string CurrentValue
-{
-	get { return LastValue.ToString(); }
-}
-public string CurrentScore
-{
-	get { return string.Format("{0} of {1} correct", CorrectGuesses, TotalGuesses); }
-}
-
-PHASE 3 – ONPLATFORM
-MAIN PAGE XAML
+* Update the MainPage xaml by replacing the button stack panel with:
+```
 <StackLayout>
 	<StackLayout.Orientation>
 		<OnPlatform x:TypeArguments="StackOrientation" 
-Android="Vertical" WinPhone="Horizontal" />
+					Android="Vertical" WinPhone="Horizontal" />
 	</StackLayout.Orientation>
 	<Button Text="High" Command="{Binding GuessHighCommand}" />
 	<Button Text="Low" Command="{Binding GuessLowCommand}"  />
 </StackLayout>
+```
 
-WINPHONE PROJECT
-[assembly: Dependency(typeof(WinPhoneDataService))]
-
-class WinPhoneDataService : IDataService
-{
-	readonly string scoreFilePath ;
-
-	public WinPhoneDataService()
-	{
-		scoreFilePath = "ScoreData"; 
-	}
-	public string GetScoreData()
-	{
-		if (System.IO.File.Exists(scoreFilePath))
+## Add Windows Phone support for IDataService
+* Create a new class in Android project called ***WinPhoneDataService***
+* Add the following before the namespace declaration: 
+		[assembly: Dependency(typeof(WinPhoneDataService))]
+* Set the class to:
+		class WinPhoneDataService : IDataService
 		{
-			using (var tr = System.IO.File.OpenText(scoreFilePath))
+			readonly string scoreFilePath ;
+		
+			public WinPhoneDataService()
 			{
-				return tr.ReadToEnd();
+				scoreFilePath = "ScoreData"; 
+			}
+			public string GetScoreData()
+			{
+				if (System.IO.File.Exists(scoreFilePath))
+				{
+					using (var tr = System.IO.File.OpenText(scoreFilePath))
+					{
+						return tr.ReadToEnd();
+					}
+				}
+		
+				return "{}";
+			}
+		
+			public void SetScoreData(string data)
+			{
+				using (var tw = System.IO.File.CreateText(scoreFilePath))
+				{
+					tw.Write(data);
+				}
 			}
 		}
-
-		return "{}";
-	}
-
-	public void SetScoreData(string data)
-	{
-		using (var tw = System.IO.File.CreateText(scoreFilePath))
-		{
-			tw.Write(data);
-		}
-	}
-}
 
