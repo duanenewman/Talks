@@ -16,6 +16,7 @@ The below code will take you through the progression of steps taken during the t
 ## Demo 1 - Coded UI
 
 * Modify ***App.cs*** by replacing the constructor with the following
+
 		private Label message;
 		public App()
 		{
@@ -68,12 +69,14 @@ The below code will take you through the progression of steps taken during the t
 ```
 
 * In the code-behind for the new page add the following code:
+
 		public void ViewMessageClicked(object sender, EventArgs args)
 		{
 			message.Text = "Hello KCDC Developers (with XAML)!";
 		}
 
 * Change the App.cs constructor to load the new page:
+
 		MainPage = new HelloXamlPage();
 		
 ## DEMO 3 Hi/Lo Game
@@ -105,6 +108,7 @@ The below code will take you through the progression of steps taken during the t
 
 ####VIEW MODEL
 * Create a new class named ***MainPageViewModel***
+
 		public class MainPageViewModel : INotifyPropertyChanged
 		{
 			public event PropertyChangedEventHandler PropertyChanged;
@@ -179,26 +183,33 @@ The below code will take you through the progression of steps taken during the t
 
 #### Binding View to ViewModel
 * Add the following to the ***MainPage.xaml.cs*** constructor
+
 		this.BindingContext = new MainPageViewModel();
 
 ###PHASE 2 - STORE LAST NUMBER AND SCORE
 * Add JSon.NET NuGet package to portable project
+
 		install-package newtonsoft.json
 		
 * Add a new interface called ***IDataService***		
+
 		public interface IDataService
 		{
 			string GetScoreData();
 			void SetScoreData(string data);
 		}
+		
 * Add a new class called ***Scores***
+
 		public class Scores
 		{
 			public int CorrectGuesses { get; set; }
 			public int TotalGuesses { get; set; }
 			public int LastValue { get; set; }
 		}
+		
 * Add ***Scores*** Property and update existing properties on ViewModel 
+
 		private Scores Scores { get; set; }
 		
 		public string CurrentScore
@@ -227,10 +238,12 @@ The below code will take you through the progression of steps taken during the t
 		}
 
 * Initialize Scores object in constructor
+
 		var ds = DependencyService.Get<IDataService>();
 		Scores = Newtonsoft.Json.JsonConvert.DeserializeObject<Scores>(ds.GetScoreData());
 
 * Add IDataService call to ***ShowResult*** method
+
 		public void ShowResult(int nextNumber, bool success)
 		{
 			CorrectGuesses += success ? 1 : 0;
@@ -251,6 +264,7 @@ The below code will take you through the progression of steps taken during the t
 [assembly: Dependency(typeof(AndroidDataService))]
 ```
 * Set the class to:
+
 		public class AndroidDataService : IDataService
 		{
 			readonly string scoreFilePath ;
@@ -276,9 +290,11 @@ The below code will take you through the progression of steps taken during the t
 				System.IO.File.WriteAllText(scoreFilePath, data);
 			}
 		}
+		
 ###Load blank values:
 * Update the ShowResults method to remove the setting of CurrentValue
 * Replace the CurrentValue property with:
+
 		public string CurrentValue
 		{
 			get { return LastValue.ToString(); }
@@ -301,8 +317,11 @@ The below code will take you through the progression of steps taken during the t
 ## Add Windows Phone support for IDataService
 * Create a new class in Android project called ***WinPhoneDataService***
 * Add the following before the namespace declaration: 
+
 		[assembly: Dependency(typeof(WinPhoneDataService))]
+
 * Set the class to:
+
 		class WinPhoneDataService : IDataService
 		{
 			readonly string scoreFilePath ;
