@@ -1,0 +1,82 @@
+﻿<Window x:Class="UptownFunc.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UptownFunc"
+        mc:Ignorable="d"
+        Title="Uptown Func&lt;&gt;" Height="450" Width="715" DataContext="{DynamicResource viewModel}">
+	<Window.Resources>
+		<local:MainWindowViewModel x:Key="viewModel" />
+
+		<LinearGradientBrush x:Key="AutobotBrush" StartPoint="0.45,0" EndPoint="0.5,1">
+			<GradientStop Offset="0" Color="Red"/>
+			<GradientStop Offset=".8" Color="#ffbb0000"/>
+		</LinearGradientBrush>
+
+		<LinearGradientBrush x:Key="DecepticonBrush" StartPoint="0.45,0" EndPoint="0.5,1">
+			<GradientStop Offset="0" Color="SkyBlue"/>
+			<GradientStop Offset=".8" Color="RoyalBlue"/>
+		</LinearGradientBrush>
+
+		<local:AffiliationBrushConverter x:Key="AffiliationBrushConverter" AutobotBrush="{StaticResource AutobotBrush}" DecepticonBrush="{StaticResource DecepticonBrush}" />
+		
+	</Window.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<ListBox Grid.ColumnSpan="2" x:Name="AllTransformers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+				 ItemsSource="{Binding AllTransformers}" SelectedItem="{Binding SelectedTransformer}">
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel/>
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid Width="200" Margin="5" >
+						<Frame Background="{Binding Affiliation, Converter={StaticResource AffiliationBrushConverter}}" >
+							<Frame.Effect>
+								<DropShadowEffect/>
+							</Frame.Effect>
+						</Frame>
+						<StackPanel Orientation="Vertical">
+							<Label Content="{Binding Name}" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
+							<TextBlock TextWrapping="Wrap" Text="{Binding AlternateForm}" TextAlignment="Center" FontSize="14"/>
+							<!--<Label Content="{Binding AlternateForm}" HorizontalContentAlignment="Center" FontSize="14"/>-->
+							<Label Content="{Binding Affiliation}" HorizontalContentAlignment="Center" FontSize="12"/>
+						</StackPanel>
+						<Label Content="{Binding Rating}" HorizontalContentAlignment="right" VerticalAlignment="top" FontSize="10"/>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ListBox>
+
+		<StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+			<ComboBox Width="150" Margin="5" ItemsSource="{Binding RollcallOptions}" SelectedItem="{Binding SelectedRollcallOption}" DisplayMemberPath="Name"/>
+			<ComboBox Width="150" Margin="5"/>
+			<Button Content="Process" Margin="5" Padding="10,0" Command="{Binding ProcessCommand}"/>
+		</StackPanel>
+
+		<ScrollViewer Grid.Column="0" Grid.Row="2">
+			<ItemsControl ItemsSource="{Binding Results}">
+
+			</ItemsControl>
+		</ScrollViewer>
+
+		<ScrollViewer Grid.Column="1" Grid.Row="2">
+			<ItemsControl>
+
+			</ItemsControl>
+		</ScrollViewer>
+
+	</Grid>
+</Window>
