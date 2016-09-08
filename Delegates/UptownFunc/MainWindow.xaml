@@ -26,60 +26,59 @@
 		</LinearGradientBrush>
 
 		<local:AffiliationBrushConverter x:Key="AffiliationBrushConverter" AutobotBrush="{StaticResource AutobotBrush}" DecepticonBrush="{StaticResource DecepticonBrush}" />
+
+		<DataTemplate x:Key="TransformerDataTemplate" DataType="local:Transformer">
+			<Grid Width="200" Margin="5" >
+				<Frame Background="{Binding Affiliation, Converter={StaticResource AffiliationBrushConverter}}" >
+					<Frame.Effect>
+						<DropShadowEffect/>
+					</Frame.Effect>
+				</Frame>
+				<StackPanel Orientation="Vertical">
+					<Label Content="{Binding Name}" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
+					<TextBlock TextWrapping="Wrap" Text="{Binding AlternateForm}" TextAlignment="Center" FontSize="14"/>
+					<!--<Label Content="{Binding AlternateForm}" HorizontalContentAlignment="Center" FontSize="14"/>-->
+					<Label Content="{Binding Affiliation}" HorizontalContentAlignment="Center" FontSize="12"/>
+				</StackPanel>
+				<Label Content="{Binding Rating}" HorizontalContentAlignment="right" VerticalAlignment="top" FontSize="10"/>
+			</Grid>
+		</DataTemplate>
 		
 	</Window.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="300"/>
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
-			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
 		<ListBox Grid.ColumnSpan="2" x:Name="AllTransformers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent"
-				 ItemsSource="{Binding AllTransformers}" SelectedItem="{Binding SelectedTransformer}">
+				 ItemsSource="{Binding AllTransformers}" SelectedItem="{Binding SelectedTransformer}"
+				 ItemTemplate="{StaticResource TransformerDataTemplate}">
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>
 					<WrapPanel/>
 				</ItemsPanelTemplate>
 			</ListBox.ItemsPanel>
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Grid Width="200" Margin="5" >
-						<Frame Background="{Binding Affiliation, Converter={StaticResource AffiliationBrushConverter}}" >
-							<Frame.Effect>
-								<DropShadowEffect/>
-							</Frame.Effect>
-						</Frame>
-						<StackPanel Orientation="Vertical">
-							<Label Content="{Binding Name}" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-							<TextBlock TextWrapping="Wrap" Text="{Binding AlternateForm}" TextAlignment="Center" FontSize="14"/>
-							<!--<Label Content="{Binding AlternateForm}" HorizontalContentAlignment="Center" FontSize="14"/>-->
-							<Label Content="{Binding Affiliation}" HorizontalContentAlignment="Center" FontSize="12"/>
-						</StackPanel>
-						<Label Content="{Binding Rating}" HorizontalContentAlignment="right" VerticalAlignment="top" FontSize="10"/>
-					</Grid>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
 		</ListBox>
 
-		<StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-			<ComboBox Width="150" Margin="5" ItemsSource="{Binding RollcallOptions}" SelectedItem="{Binding SelectedRollcallOption}" DisplayMemberPath="Name"/>
-			<ComboBox Width="150" Margin="5"/>
+		<StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical">
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Roll call response" VerticalContentAlignment="Center"/>
+				<ComboBox Width="150" Margin="5" ItemsSource="{Binding RollcallOptions}" SelectedItem="{Binding SelectedRollcallOption}" DisplayMemberPath="Name"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Roll call response" VerticalContentAlignment="Center"/>
+				<ComboBox Width="150" Margin="5"/>
+			</StackPanel>
 			<Button Content="Process" Margin="5" Padding="10,0" Command="{Binding ProcessCommand}"/>
 		</StackPanel>
 
-		<ScrollViewer Grid.Column="0" Grid.Row="2">
+		<ScrollViewer Grid.Column="1" Grid.Row="1">
 			<ItemsControl ItemsSource="{Binding Results}">
-
-			</ItemsControl>
-		</ScrollViewer>
-
-		<ScrollViewer Grid.Column="1" Grid.Row="2">
-			<ItemsControl>
 
 			</ItemsControl>
 		</ScrollViewer>
