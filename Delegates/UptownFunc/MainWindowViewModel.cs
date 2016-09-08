@@ -32,28 +32,24 @@ namespace UptownFunc
 			SelectedTransformer = AllTransformers.First();
 			RollcallOptions = new List<RollcallOption>()
 			{
-				new RollcallOption() {Name = "Name", RollCallResponse =
-				delegate (Transformer transformer)
-					{
-						return transformer.Name;
-					}},
+				new RollcallOption() {
+					Name = "Name",
+					RollCallResponse = t => t.Name
+				},
 				new RollcallOption()
 				{
-					Name = "Affiliation", RollCallResponse =
-				delegate (Transformer transformer)
-					{
-						return $"{transformer.Name} is a {transformer.Affiliation.ToString()}";
-					}
+					Name = "Affiliation",
+					RollCallResponse = t => $"{t.Name} is a {t.Affiliation.ToString()}"
 				},
-				new RollcallOption() {Name = "Alternate Form", RollCallResponse = delegate (Transformer transformer)
-					{
-						return transformer.AlternateForm;
-					}
+				new RollcallOption()
+				{
+					Name = "Alternate Form",
+					RollCallResponse = t => t.AlternateForm
 				},
-				new RollcallOption() {Name = "Rating", RollCallResponse = delegate (Transformer transformer)
-					{
-						return $"{transformer.Rating.ToString()} - {transformer.Name}";
-					}
+				new RollcallOption()
+				{
+					Name = "Rating",
+					RollCallResponse = t => $"{t.Rating.ToString()} - {t.Name}"
 				},
 			};
 			ActionOptions = new List<ActionOption>()
