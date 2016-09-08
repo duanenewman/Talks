@@ -54,7 +54,7 @@ namespace UptownFunc
 		}
 		private string AffiliationRollCall(Transformer transformer)
 		{
-			return transformer.Affiliation.ToString();
+			return $"{transformer.Name} is a {transformer.Affiliation.ToString()}";
 		}
 		private string AlternateFormRollCall(Transformer transformer)
 		{
@@ -62,7 +62,7 @@ namespace UptownFunc
 		}
 		private string RatingRollCall(Transformer transformer)
 		{
-			return transformer.Rating.ToString();
+			return $"{transformer.Rating.ToString()} - {transformer.Name}";
 		}
 
 		private void CallRollCommandExecute(object obj)
