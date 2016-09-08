@@ -6,6 +6,12 @@
         xmlns:local="clr-namespace:UptownFunc"
         mc:Ignorable="d"
         Title="Uptown Func&lt;&gt;" Height="450" Width="715" DataContext="{DynamicResource viewModel}">
+	<Window.Background>
+		<LinearGradientBrush>
+			<GradientStop Offset="0" Color="White"/>
+			<GradientStop Offset="1" Color="GhostWhite"/>
+		</LinearGradientBrush>
+	</Window.Background>
 	<Window.Resources>
 		<local:MainWindowViewModel x:Key="viewModel" />
 
@@ -33,7 +39,7 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<ListBox Grid.ColumnSpan="2" x:Name="AllTransformers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+		<ListBox Grid.ColumnSpan="2" x:Name="AllTransformers" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent"
 				 ItemsSource="{Binding AllTransformers}" SelectedItem="{Binding SelectedTransformer}">
 			<ListBox.ItemsPanel>
 				<ItemsPanelTemplate>

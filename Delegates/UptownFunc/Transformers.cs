@@ -54,21 +54,21 @@ namespace UptownFunc
 				new Transformer()
 				{
 					Name = "Sideswipe",
-					AlternateForm = "1974 Lamborghini Countach LP500S",
+					AlternateForm = "1974 Lamborghini LP500S",
 					Affiliation = Affiliation.Autobots,
 					Rating = 4
 				},
 				new Transformer()
 				{
 					Name = "Ratchet",
-					AlternateForm = "1979 Nissan Onebox Vanette Ambulance",
+					AlternateForm = "1979 Nissan Ambulance",
 					Affiliation = Affiliation.Autobots,
 					Rating = 4
 				},
 				new Transformer()
 				{
 					Name = "Ironhide",
-					AlternateForm = "1979 Nissan Onebox Vanette Van",
+					AlternateForm = "1979 Nissan Van",
 					Affiliation = Affiliation.Autobots,
 					Rating = 5
 				},
@@ -128,102 +128,102 @@ namespace UptownFunc
 				{
 					Name = "Megatron",
 					AlternateForm = "1913 U.N.C.L.E. Walther P38",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 5
 				},
 				new Transformer()
 				{
 					Name = "Soundwave",
 					AlternateForm = "Microcassette recorder",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 5
 				},
 				new Transformer()
 				{
 					Name = "Shockwave",
 					AlternateForm = "Laser Cannon",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 5
 				},
 				new Transformer()
 				{
 					Name = "Skywarp",
 					AlternateForm = "1975 F-15 Eagle",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 4
 				},
 				new Transformer()
 				{
 					Name = "Starscream",
 					AlternateForm = "1975 F-15 Eagle",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 5
 				},
 				new Transformer()
 				{
 					Name = "Thundercracker",
 					AlternateForm = "1975 F-15 Eagle",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 4
 				},
 				new Transformer()
 				{
 					Name = "Reflector",
 					AlternateForm = "1981 Kodak Camera",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 3
 				},
 				new Transformer()
 				{
 					Name = "Hook",
 					AlternateForm = "1970 Crane Vehicle",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 3
 				},
 				new Transformer()
 				{
 					Name = "Scrapper",
 					AlternateForm = "1971 Front End Loader",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 3
 				},
 				new Transformer()
 				{
 					Name = "Bonecrusher",
 					AlternateForm = "1972 Bulldozer",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 4
 				},
 				new Transformer()
 				{
 					Name = "Long Haul",
 					AlternateForm = "1973 Dump truck",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 3
 				},
 				new Transformer()
 				{
 					Name = "Scavenger",
 					AlternateForm = "1974 Excavator",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 3
 				},
 				new Transformer()
 				{
 					Name = "Mixmaster",
 					AlternateForm = "1975 Cement Truck",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 3
 				},
 				new Transformer()
 				{
 					Name = "Lockdown",
 					AlternateForm = "Lamborghini Aventador",
-					Affiliation = Affiliation.Autobots,
+					Affiliation = Affiliation.Decepticons,
 					Rating = 4
 				},
 
-			}.OrderBy(t => t.Name).ToList();
+			}.OrderByDescending(t => t.Rating).ToList();
 		}
 	}
 }
