@@ -36,7 +36,7 @@
 				</Frame>
 				<StackPanel Orientation="Vertical">
 					<Label Content="{Binding Name}" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-					<TextBlock TextWrapping="Wrap" Text="{Binding AlternateForm}" TextAlignment="Center" FontSize="14"/>
+					<TextBlock TextWrapping="Wrap" Text="{Binding CurrentState}" TextAlignment="Center" FontSize="14"/>
 					<!--<Label Content="{Binding AlternateForm}" HorizontalContentAlignment="Center" FontSize="14"/>-->
 					<Label Content="{Binding Affiliation}" HorizontalContentAlignment="Center" FontSize="12"/>
 				</StackPanel>

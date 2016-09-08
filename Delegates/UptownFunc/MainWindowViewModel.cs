@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using PropertyChanged;
 
@@ -54,9 +56,41 @@ namespace UptownFunc
 			};
 			ActionOptions = new List<ActionOption>()
 			{
-				new ActionOption() { Name = "Transform" },
-				new ActionOption() { Name = "Top Rated" },
-				new ActionOption() { Name = "Average Rating" }
+				new ActionOption()
+				{
+					Name = "Transform",
+					Action = t =>
+					{
+						foreach (var transformer in t)
+						{
+							transformer.Transform();
+						}
+					}
+				},
+				new ActionOption()
+				{
+					Name = "Top Rated",
+					Action = t =>
+					{
+						MessageBox.Show($"Top rated transformer: {t.OrderByDescending(t1 => t1.Rating).First().Name}");
+					}
+				},
+				new ActionOption()
+				{
+					Name = "Average Rating",
+					Action = t =>
+					{
+						Results.Add($"Average Rating: {t.Average(t1 => t1.Rating).ToString()}");
+					}
+				},
+				new ActionOption()
+				{
+					Name = "First By Name",
+					Action = t =>
+					{
+						Results.Add(t.OrderBy(t1 => t1.Name).First().Name);
+					}
+				}
 			};
 			SelectedRollcallOption = RollcallOptions.First();
 
@@ -79,7 +113,17 @@ namespace UptownFunc
 		{
 
 			Results.Clear();
-			Results.Add("Nothing to do here yet");
+			Action<List<Transformer>> action = null;
+			foreach (var actionOption in ActionOptions)
+			{
+				if (actionOption.IsChecked)
+				{
+					action += actionOption.Action;
+				}
+			}
+
+			if (action != null)
+				action(AllTransformers);
 
 		}
 	}
