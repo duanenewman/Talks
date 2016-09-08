@@ -1,7 +1,10 @@
+using System.Runtime.CompilerServices;
 using PropertyChanged;
 
 namespace UptownFunc
 {
+	public delegate string RollCallResponse(Transformer transformer);
+
 	[ImplementPropertyChanged]
 	public class Transformer
 	{
@@ -16,6 +19,11 @@ namespace UptownFunc
 		public override string ToString()
 		{
 			return Name;
+		}
+
+		public string RollCall(RollCallResponse response)
+		{
+			return response(this);
 		}
 
 		public void Transform()

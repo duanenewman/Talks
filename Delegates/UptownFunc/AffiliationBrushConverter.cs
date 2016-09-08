@@ -19,7 +19,7 @@ namespace UptownFunc
 			if (!(value is Affiliation))
 				return Brushes.Transparent;
 
-			if (((Affiliation) value) == Affiliation.Autobots)
+			if (((Affiliation) value) == Affiliation.Autobot)
 				return AutobotBrush;
 
 			return DecepticonBrush;

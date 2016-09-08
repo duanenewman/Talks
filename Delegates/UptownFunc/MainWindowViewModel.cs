@@ -31,7 +31,7 @@ namespace UptownFunc
 			SelectedTransformer = AllTransformers.First();
 			RollcallOptions = new List<RollcallOption>()
 			{
-				new RollcallOption() {Name = "Silence"},
+				new RollcallOption() {Name = "Name"},
 				new RollcallOption() {Name = "Affiliation"},
 				new RollcallOption() {Name = "Alternate Form"},
 				new RollcallOption() {Name = "Rating"},
@@ -48,13 +48,53 @@ namespace UptownFunc
 			TakeActionCommand = new RelayCommand<object>(TakeActionCommandExecute);
 		}
 
+		private string NameRollCall(Transformer transformer)
+		{
+			return transformer.Name;
+		}
+		private string AffiliationRollCall(Transformer transformer)
+		{
+			return transformer.Affiliation.ToString();
+		}
+		private string AlternateFormRollCall(Transformer transformer)
+		{
+			return transformer.AlternateForm;
+		}
+		private string RatingRollCall(Transformer transformer)
+		{
+			return transformer.Rating.ToString();
+		}
+
 		private void CallRollCommandExecute(object obj)
 		{
 
 			Results.Clear();
-			Results.Add("Nothing to do here yet");
 
+			RollCallResponse response = null;
+			if (SelectedRollcallOption.Name == "Name")
+			{
+				response = NameRollCall;
+			}
+			if (SelectedRollcallOption.Name == "Affiliation")
+			{
+				response = AffiliationRollCall;
+			}
+			if (SelectedRollcallOption.Name == "Alternate Form")
+			{
+				response = AlternateFormRollCall;
+			}
+			if (SelectedRollcallOption.Name == "Rating")
+			{
+				response = RatingRollCall;
+			}
+
+			foreach (var transformer in AllTransformers)
+			{
+				Results.Add(transformer.RollCall(response));
+
+			}
 		}
+
 		private void TakeActionCommandExecute(object obj)
 		{
 
