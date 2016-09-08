@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -31,10 +32,10 @@ namespace UptownFunc
 			SelectedTransformer = AllTransformers.First();
 			RollcallOptions = new List<RollcallOption>()
 			{
-				new RollcallOption() {Name = "Name"},
-				new RollcallOption() {Name = "Affiliation"},
-				new RollcallOption() {Name = "Alternate Form"},
-				new RollcallOption() {Name = "Rating"},
+				new RollcallOption() {Name = "Name", RollCallResponse = NameRollCall},
+				new RollcallOption() {Name = "Affiliation", RollCallResponse = AffiliationRollCall},
+				new RollcallOption() {Name = "Alternate Form", RollCallResponse = AlternateFormRollCall},
+				new RollcallOption() {Name = "Rating", RollCallResponse = RatingRollCall},
 			};
 			ActionOptions = new List<ActionOption>()
 			{
@@ -67,30 +68,10 @@ namespace UptownFunc
 
 		private void CallRollCommandExecute(object obj)
 		{
-
 			Results.Clear();
-
-			RollCallResponse response = null;
-			if (SelectedRollcallOption.Name == "Name")
-			{
-				response = NameRollCall;
-			}
-			if (SelectedRollcallOption.Name == "Affiliation")
-			{
-				response = AffiliationRollCall;
-			}
-			if (SelectedRollcallOption.Name == "Alternate Form")
-			{
-				response = AlternateFormRollCall;
-			}
-			if (SelectedRollcallOption.Name == "Rating")
-			{
-				response = RatingRollCall;
-			}
-
 			foreach (var transformer in AllTransformers)
 			{
-				Results.Add(transformer.RollCall(response));
+				Results.Add(transformer.RollCall(SelectedRollcallOption.RollCallResponse));
 
 			}
 		}

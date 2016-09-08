@@ -1,9 +1,9 @@
+using System;
 using System.Runtime.CompilerServices;
 using PropertyChanged;
 
 namespace UptownFunc
 {
-	public delegate string RollCallResponse(Transformer transformer);
 
 	[ImplementPropertyChanged]
 	public class Transformer
@@ -21,7 +21,7 @@ namespace UptownFunc
 			return Name;
 		}
 
-		public string RollCall(RollCallResponse response)
+		public string RollCall(Func<Transformer, string> response)
 		{
 			return response(this);
 		}
