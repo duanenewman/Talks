@@ -32,10 +32,29 @@ namespace UptownFunc
 			SelectedTransformer = AllTransformers.First();
 			RollcallOptions = new List<RollcallOption>()
 			{
-				new RollcallOption() {Name = "Name", RollCallResponse = NameRollCall},
-				new RollcallOption() {Name = "Affiliation", RollCallResponse = AffiliationRollCall},
-				new RollcallOption() {Name = "Alternate Form", RollCallResponse = AlternateFormRollCall},
-				new RollcallOption() {Name = "Rating", RollCallResponse = RatingRollCall},
+				new RollcallOption() {Name = "Name", RollCallResponse =
+				delegate (Transformer transformer)
+					{
+						return transformer.Name;
+					}},
+				new RollcallOption()
+				{
+					Name = "Affiliation", RollCallResponse =
+				delegate (Transformer transformer)
+					{
+						return $"{transformer.Name} is a {transformer.Affiliation.ToString()}";
+					}
+				},
+				new RollcallOption() {Name = "Alternate Form", RollCallResponse = delegate (Transformer transformer)
+					{
+						return transformer.AlternateForm;
+					}
+				},
+				new RollcallOption() {Name = "Rating", RollCallResponse = delegate (Transformer transformer)
+					{
+						return $"{transformer.Rating.ToString()} - {transformer.Name}";
+					}
+				},
 			};
 			ActionOptions = new List<ActionOption>()
 			{
@@ -49,22 +68,6 @@ namespace UptownFunc
 			TakeActionCommand = new RelayCommand<object>(TakeActionCommandExecute);
 		}
 
-		private string NameRollCall(Transformer transformer)
-		{
-			return transformer.Name;
-		}
-		private string AffiliationRollCall(Transformer transformer)
-		{
-			return $"{transformer.Name} is a {transformer.Affiliation.ToString()}";
-		}
-		private string AlternateFormRollCall(Transformer transformer)
-		{
-			return transformer.AlternateForm;
-		}
-		private string RatingRollCall(Transformer transformer)
-		{
-			return $"{transformer.Rating.ToString()} - {transformer.Name}";
-		}
 
 		private void CallRollCommandExecute(object obj)
 		{
