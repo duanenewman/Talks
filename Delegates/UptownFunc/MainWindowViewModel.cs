@@ -17,8 +17,10 @@ namespace UptownFunc
 
 		public List<RollcallOption> RollcallOptions { get; set; }
 		public RollcallOption SelectedRollcallOption { get; set; }
+		public ICommand CallRollCommand { get; private set; }
 
-		public ICommand ProcessCommand { get; private set; }
+		public List<ActionOption> ActionOptions { get; set; }
+		public ICommand TakeActionCommand { get; private set; }
 
 		public ObservableCollection<string> Results { get; set; } = new ObservableCollection<string>();
 		#endregion
@@ -34,12 +36,26 @@ namespace UptownFunc
 				new RollcallOption() {Name = "Alternate Form"},
 				new RollcallOption() {Name = "Rating"},
 			};
+			ActionOptions = new List<ActionOption>()
+			{
+				new ActionOption() { Name = "Transform" },
+				new ActionOption() { Name = "Top Rated" },
+				new ActionOption() { Name = "Average Rating" }
+			};
 			SelectedRollcallOption = RollcallOptions.First();
 
-			ProcessCommand = new RelayCommand<object>(ProcessCommandExecute);
+			CallRollCommand = new RelayCommand<object>(CallRollCommandExecute);
+			TakeActionCommand = new RelayCommand<object>(TakeActionCommandExecute);
 		}
 
-		private void ProcessCommandExecute(object obj)
+		private void CallRollCommandExecute(object obj)
+		{
+
+			Results.Clear();
+			Results.Add("Nothing to do here yet");
+
+		}
+		private void TakeActionCommandExecute(object obj)
 		{
 
 			Results.Clear();

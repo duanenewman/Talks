@@ -70,11 +70,18 @@
 				<Label Content="Roll call response" VerticalContentAlignment="Center"/>
 				<ComboBox Width="150" Margin="5" ItemsSource="{Binding RollcallOptions}" SelectedItem="{Binding SelectedRollcallOption}" DisplayMemberPath="Name"/>
 			</StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<Label Content="Roll call response" VerticalContentAlignment="Center"/>
-				<ComboBox Width="150" Margin="5"/>
-			</StackPanel>
-			<Button Content="Process" Margin="5" Padding="10,0" Command="{Binding ProcessCommand}"/>
+			<Button Content="Call Roll" Margin="5" Padding="10,0" Command="{Binding CallRollCommand}"/>
+
+			<Label Content="Actions:" VerticalContentAlignment="Center" Margin="0,20,0,0"/>
+			<ItemsControl ItemsSource="{Binding ActionOptions}" Margin="20,0,0,0">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}"/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+
+			<Button Content="Take Action" Margin="5" Padding="10,0" Command="{Binding TakeActionCommand}"/>
 		</StackPanel>
 
 		<ScrollViewer Grid.Column="1" Grid.Row="1">
