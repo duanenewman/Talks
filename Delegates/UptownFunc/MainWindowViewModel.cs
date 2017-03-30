@@ -32,170 +32,220 @@ namespace UptownFunc
 		{
 			AllTransformers = Transformers.GetTransformers();
 			SelectedTransformer = AllTransformers.First();
-			RollcallOptions = SetupRollcallOptions();
-			ActionOptions = SetupActionOptions();
+            RollcallOptions = SetupRollcallOptions();
+            ActionOptions = SetupActionOptions();
 			SelectedRollcallOption = RollcallOptions.First();
 
 			CallRollCommand = new RelayCommand<object>(CallRollCommandExecute);
 			TakeActionCommand = new RelayCommand<object>(TakeActionCommandExecute);
 		}
 
-		// Rollcall step 1
-		//private static List<RollcallOption> SetupRollcallOptions()
-		//{
-		//	return new List<RollcallOption>()
-		//	{
-		//		new RollcallOption() {
-		//			Name = "Name",
-		//			RollCallResponse = t => t.Name
-		//		},
-		//		new RollcallOption()
-		//		{
-		//			Name = "Affiliation",
-		//			RollCallResponse = RollCallAffiliation
-		//		},
-		//		new RollcallOption()
-		//		{
-		//			Name = "Alternate Form",
-		//			RollCallResponse = RollCallAlternateForm
-		//		},
-		//		new RollcallOption()
-		//		{
-		//			Name = "Rating",
-		//			RollCallResponse = RollCallRating
-		//		},
-		//	};
-		//}
+        // Rollcall step 1
+        private static List<RollcallOption> SetupRollcallOptions()
+        {
+            return new List<RollcallOption>()
+            {
+                new RollcallOption() {
+                    Name = "Name"
+                },
+                new RollcallOption()
+                {
+                    Name = "Affiliation"
+                },
+                new RollcallOption()
+                {
+                    Name = "Alternate Form"
+                },
+                new RollcallOption()
+                {
+                    Name = "Rating"
+                },
+            };
+        }
 
-		// // RollCall Step 3
-		private static List<RollcallOption> SetupRollcallOptions()
-		{
-			return new List<RollcallOption>()
-			{
-				new RollcallOption() {
-					Name = "Name",
-					RollCallResponse = t => t.Name
-				},
-				new RollcallOption()
-				{
-					Name = "Affiliation",
-					RollCallResponse = t => $"{t.Name} is a {t.Affiliation.ToString()}"
-				},
-				new RollcallOption()
-				{
-					Name = "Alternate Form",
-					RollCallResponse = t => t.AlternateForm
-				},
-				new RollcallOption()
-				{
-					Name = "Rating",
-					RollCallResponse = t => $"{t.Rating.ToString()} - {t.Name}"
-				},
-			};
-		}
+        // Rollcall step 2
+        //private static List<RollcallOption> SetupRollcallOptions()
+        //{
+        //	return new List<RollcallOption>()
+        //	{
+        //		new RollcallOption() {
+        //			Name = "Name",
+        //			RollCallResponse = t => t.Name
+        //		},
+        //		new RollcallOption()
+        //		{
+        //			Name = "Affiliation",
+        //			RollCallResponse = RollCallAffiliation
+        //		},
+        //		new RollcallOption()
+        //		{
+        //			Name = "Alternate Form",
+        //			RollCallResponse = RollCallAlternateForm
+        //		},
+        //		new RollcallOption()
+        //		{
+        //			Name = "Rating",
+        //			RollCallResponse = RollCallRating
+        //		},
+        //	};
+        //}
+
+        // // RollCall Step 3
+        //private static List<RollcallOption> SetupRollcallOptions()
+        //{
+        //	return new List<RollcallOption>()
+        //	{
+        //		new RollcallOption() {
+        //			Name = "Name",
+        //			RollCallResponse = t => t.Name
+        //		},
+        //		new RollcallOption()
+        //		{
+        //			Name = "Affiliation",
+        //			RollCallResponse = t => $"{t.Name} is a {t.Affiliation.ToString()}"
+        //		},
+        //		new RollcallOption()
+        //		{
+        //			Name = "Alternate Form",
+        //			RollCallResponse = t => t.AlternateForm
+        //		},
+        //		new RollcallOption()
+        //		{
+        //			Name = "Rating",
+        //			RollCallResponse = t => $"{t.Rating.ToString()} - {t.Name}"
+        //		},
+        //	};
+        //}
 
 
-		//// Action Step 1
-		//private List<ActionOption> SetupActionOptions()
-		//{
-		//	return new List<ActionOption>()
-		//	{
-		//		new ActionOption()
-		//		{
-		//			Name = "Transform"
-		//		},
-		//		new ActionOption()
-		//		{
-		//			Name = "Top Rated"
-		//		},
-		//		new ActionOption()
-		//		{
-		//			Name = "Average Rating"
-		//		},
-		//		new ActionOption()
-		//		{
-		//			Name = "First By Name"
-		//		}
-		//	};
-		//}
+        // Action Step 1
+        private List<ActionOption> SetupActionOptions()
+        {
+            return new List<ActionOption>()
+            {
+                new ActionOption()
+                {
+                    Name = "Transform"
+                },
+                new ActionOption()
+                {
+                    Name = "Top Rated"
+                },
+                new ActionOption()
+                {
+                    Name = "Average Rating"
+                },
+                new ActionOption()
+                {
+                    Name = "First By Name"
+                }
+            };
+        }
 
-		// // Action Step 2
-		private List<ActionOption> SetupActionOptions()
-		{
-			return new List<ActionOption>()
-			{
-				new ActionOption()
-				{
-					Name = "Transform",
-					Action = t =>
-					{
-						foreach (var transformer in t)
-						{
-							transformer.Transform();
-						}
-					}
-				},
-				new ActionOption()
-				{
-					Name = "Top Rated",
-					Action = t =>
-					{
-						MessageBox.Show($"Top rated transformer: {t.OrderByDescending(t1 => t1.Rating).First().Name}");
-					}
-				},
-				new ActionOption()
-				{
-					Name = "Average Rating",
-					Action = t =>
-					{
-						Results.Add($"Average Rating: {t.Average(t1 => t1.Rating).ToString()}");
-					}
-				},
-				new ActionOption()
-				{
-					Name = "First By Name",
-					Action = t =>
-					{
-						Results.Add(t.OrderBy(t1 => t1.Name).First().Name);
-					}
-				}
-			};
-		}
+        // // Action Step 2
+        //private List<ActionOption> SetupActionOptions()
+        //{
+        //	return new List<ActionOption>()
+        //	{
+        //		new ActionOption()
+        //		{
+        //			Name = "Transform",
+        //			Action = t =>
+        //			{
+        //				foreach (var transformer in t)
+        //				{
+        //					transformer.Transform();
+        //				}
+        //			}
+        //		},
+        //		new ActionOption()
+        //		{
+        //			Name = "Top Rated",
+        //			Action = t =>
+        //			{
+        //				MessageBox.Show($"Top rated transformer: {t.OrderByDescending(t1 => t1.Rating).First().Name}");
+        //			}
+        //		},
+        //		new ActionOption()
+        //		{
+        //			Name = "Average Rating",
+        //			Action = t =>
+        //			{
+        //				Results.Add($"Average Rating: {t.Average(t1 => t1.Rating).ToString()}");
+        //			}
+        //		},
+        //		new ActionOption()
+        //		{
+        //			Name = "First By Name",
+        //			Action = t =>
+        //			{
+        //				Results.Add(t.OrderBy(t1 => t1.Name).First().Name);
+        //			}
+        //		}
+        //	};
+        //}
 
-		private void CallRollCommandExecute(object obj)
+        private void CallRollCommandExecute(object obj)
 		{
 			Results.Clear();
-			
-			// // Rollcall base
-			foreach (var transformer in AllTransformers)
-			{
-				Results.Add(SelectedRollcallOption.RollCallResponse(transformer));
-			}
-		}
+            Results.Add("Nothing to do");
 
-		// // Rollcall base
-		//foreach (var transformer in AllTransformers)
-		//{
-		//	if (SelectedRollCallOption.Name == "Name")
-		//	{
-		//		Results.Add(transformer.RollCall(RollCallName));
-		//	}
-		//	else if (SelectedRollCallOption.Name == "Affiliation")
-		//	{
-		//		Results.Add(transformer.RollCall(RollCallAffiliation));
-		//	}
-		//	else if (SelectedRollCallOption.Name == "Alternate Form")
-		//	{
-		//		Results.Add(transformer.RollCall(RollCallAlternateForm));
-		//	}
-		//	else if (SelectedRollCallOption.Name == "Rating")
-		//	{
-		//		Results.Add(transformer.RollCall(RollCallRating));
-		//	}
-		//}
+        }
 
-		#region RollCall Methods
-		private static string RollCallName(Transformer transformer)
+        // // Rollcall 1
+        //foreach (var transformer in AllTransformers)
+        //{
+        //	if (SelectedRollCallOption.Name == "Name")
+        //	{
+        //		Results.Add(transformer.RollCall(RollCallName));
+        //	}
+        //	else if (SelectedRollCallOption.Name == "Affiliation")
+        //	{
+        //		Results.Add(transformer.RollCall(RollCallAffiliation));
+        //	}
+        //	else if (SelectedRollCallOption.Name == "Alternate Form")
+        //	{
+        //		Results.Add(transformer.RollCall(RollCallAlternateForm));
+        //	}
+        //	else if (SelectedRollCallOption.Name == "Rating")
+        //	{
+        //		Results.Add(transformer.RollCall(RollCallRating));
+        //	}
+        //}
+
+        // // Rollcall 2 (with variable)
+        //RollCallDelegate rollcallMethod = null;
+        //
+        //if (SelectedRollCallOption.Name == "Name")
+        //{
+        //    rollcallMethod = RollCallName;
+        //}
+        //else if (SelectedRollCallOption.Name == "Affiliation")
+        //{
+        //    rollcallMethod = RollCallAffiliation;
+        //}
+        //else if (SelectedRollCallOption.Name == "Alternate Form")
+        //{
+        //    rollcallMethod = RollCallAlternateForm;
+        //}
+        //else if (SelectedRollCallOption.Name == "Rating")
+        //{
+        //    rollcallMethod = RollCallRating;
+        //}
+        //
+        //foreach (var transformer in AllTransformers)
+        //{
+        //    transformer.RollCall(rollcallMethod);
+        //}
+
+        // // Rollcall 3 (with func)
+        //foreach (var transformer in AllTransformers)
+        //{
+        //	Results.Add(SelectedRollcallOption.RollCallResponse(transformer));
+        //}
+
+        #region RollCall Methods
+        private static string RollCallName(Transformer transformer)
 		{
 			return transformer.Name;
 		}
@@ -220,25 +270,19 @@ namespace UptownFunc
 		private void TakeActionCommandExecute(object obj)
 		{
 			Results.Clear();
-			Action<List<Transformer>> action = null;
+            Results.Add("Nothing to do");
+            
+        }
 
-			foreach (var actionOption in ActionOptions)
-			{
-				if (actionOption.IsChecked)
-					action += actionOption.Action;
-			}
-
-			if (action != null)
-				action.Invoke(AllTransformers);
-
-		}
-
-		// // Action Base
-		//Action<List<Transformer>> action = null;
-		//foreach (var actionOption in ActionOptions)
-		//{
-		//
-		//}
-
-	}
+        // // Action Base
+        //Action<List<Transformer>> action = null;
+        //
+        //foreach (var actionOption in ActionOptions)
+        //{
+        //    if (actionOption.IsChecked)
+        //        action += actionOption.Action;
+        //}
+        //
+        //action.Invoke(AllTransformers);
+    }
 }
