@@ -1,10 +1,11 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Windows.Media;
 using PropertyChanged;
 
 namespace UptownFunc
 {
-
+	
 	[ImplementPropertyChanged]
 	public class Transformer
 	{
@@ -21,11 +22,11 @@ namespace UptownFunc
 			return Name;
 		}
 
-		public string RollCall(Func<Transformer, string> response)
+		public string RollCall(Func<Transformer, string> rollcall)
 		{
-			return response(this);
+			return rollcall.Invoke(this);
 		}
-
+		
 		public void Transform()
 		{
 			isTransformed = !isTransformed;

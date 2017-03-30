@@ -32,7 +32,45 @@ namespace UptownFunc
 		{
 			AllTransformers = Transformers.GetTransformers();
 			SelectedTransformer = AllTransformers.First();
-			RollcallOptions = new List<RollcallOption>()
+			RollcallOptions = SetupRollcallOptions();
+			ActionOptions = SetupActionOptions();
+			SelectedRollcallOption = RollcallOptions.First();
+
+			CallRollCommand = new RelayCommand<object>(CallRollCommandExecute);
+			TakeActionCommand = new RelayCommand<object>(TakeActionCommandExecute);
+		}
+
+		// Rollcall step 1
+		//private static List<RollcallOption> SetupRollcallOptions()
+		//{
+		//	return new List<RollcallOption>()
+		//	{
+		//		new RollcallOption() {
+		//			Name = "Name",
+		//			RollCallResponse = t => t.Name
+		//		},
+		//		new RollcallOption()
+		//		{
+		//			Name = "Affiliation",
+		//			RollCallResponse = RollCallAffiliation
+		//		},
+		//		new RollcallOption()
+		//		{
+		//			Name = "Alternate Form",
+		//			RollCallResponse = RollCallAlternateForm
+		//		},
+		//		new RollcallOption()
+		//		{
+		//			Name = "Rating",
+		//			RollCallResponse = RollCallRating
+		//		},
+		//	};
+		//}
+
+		// // RollCall Step 3
+		private static List<RollcallOption> SetupRollcallOptions()
+		{
+			return new List<RollcallOption>()
 			{
 				new RollcallOption() {
 					Name = "Name",
@@ -54,7 +92,37 @@ namespace UptownFunc
 					RollCallResponse = t => $"{t.Rating.ToString()} - {t.Name}"
 				},
 			};
-			ActionOptions = new List<ActionOption>()
+		}
+
+
+		//// Action Step 1
+		//private List<ActionOption> SetupActionOptions()
+		//{
+		//	return new List<ActionOption>()
+		//	{
+		//		new ActionOption()
+		//		{
+		//			Name = "Transform"
+		//		},
+		//		new ActionOption()
+		//		{
+		//			Name = "Top Rated"
+		//		},
+		//		new ActionOption()
+		//		{
+		//			Name = "Average Rating"
+		//		},
+		//		new ActionOption()
+		//		{
+		//			Name = "First By Name"
+		//		}
+		//	};
+		//}
+
+		// // Action Step 2
+		private List<ActionOption> SetupActionOptions()
+		{
+			return new List<ActionOption>()
 			{
 				new ActionOption()
 				{
@@ -92,39 +160,85 @@ namespace UptownFunc
 					}
 				}
 			};
-			SelectedRollcallOption = RollcallOptions.First();
-
-			CallRollCommand = new RelayCommand<object>(CallRollCommandExecute);
-			TakeActionCommand = new RelayCommand<object>(TakeActionCommandExecute);
 		}
-
 
 		private void CallRollCommandExecute(object obj)
 		{
 			Results.Clear();
+			
+			// // Rollcall base
 			foreach (var transformer in AllTransformers)
 			{
-				Results.Add(transformer.RollCall(SelectedRollcallOption.RollCallResponse));
-
+				Results.Add(SelectedRollcallOption.RollCallResponse(transformer));
 			}
 		}
+
+		// // Rollcall base
+		//foreach (var transformer in AllTransformers)
+		//{
+		//	if (SelectedRollCallOption.Name == "Name")
+		//	{
+		//		Results.Add(transformer.RollCall(RollCallName));
+		//	}
+		//	else if (SelectedRollCallOption.Name == "Affiliation")
+		//	{
+		//		Results.Add(transformer.RollCall(RollCallAffiliation));
+		//	}
+		//	else if (SelectedRollCallOption.Name == "Alternate Form")
+		//	{
+		//		Results.Add(transformer.RollCall(RollCallAlternateForm));
+		//	}
+		//	else if (SelectedRollCallOption.Name == "Rating")
+		//	{
+		//		Results.Add(transformer.RollCall(RollCallRating));
+		//	}
+		//}
+
+		#region RollCall Methods
+		private static string RollCallName(Transformer transformer)
+		{
+			return transformer.Name;
+		}
+
+		private static string RollCallAffiliation(Transformer transformer)
+		{
+			return $"{transformer.Name} is a {transformer.Affiliation}";
+		}
+
+		private static string RollCallAlternateForm(Transformer transformer)
+		{
+			return transformer.AlternateForm;
+		}
+
+		private static string RollCallRating(Transformer transformer)
+		{
+			return $"{transformer.Rating} - {transformer.Name}";
+		}
+
+		#endregion
 
 		private void TakeActionCommandExecute(object obj)
 		{
-
 			Results.Clear();
 			Action<List<Transformer>> action = null;
+
 			foreach (var actionOption in ActionOptions)
 			{
 				if (actionOption.IsChecked)
-				{
 					action += actionOption.Action;
-				}
 			}
 
 			if (action != null)
-				action(AllTransformers);
+				action.Invoke(AllTransformers);
 
 		}
+
+		// // Action Base
+		//Action<List<Transformer>> action = null;
+		//foreach (var actionOption in ActionOptions)
+		//{
+		//
+		//}
+
 	}
 }
