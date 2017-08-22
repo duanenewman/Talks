@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Duane Newman</Authors>
+    <Company>Duane's NuGet Demo</Company>
+    <Description>Core libraries for NuGet Demo</Description>
+    <Copyright>Anyone</Copyright>
+    <PackageLicenseUrl />
+    <PackageProjectUrl>https://github.com/duanenewman/Talks/NugetPackages</PackageProjectUrl>
+    <PackageIconUrl>http://duanenewman.net/blog/custom/themes/duanenewman.net-new/img/duane-logo-32.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/duanenewman/Talks/NugetPackages</RepositoryUrl>
+    <PackageTags>demo,nuget</PackageTags>
+    <PackageId>DN.NugetPackages.Core</PackageId>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyName>Core</AssemblyName>
+    <Version>1.0.5</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Build\readme.txt" Pack="true" PackagePath="readme.txt" />
+    <None Include="Build\LICENSE.md" Pack="true" PackagePath="LICENSE.md" />
+    <None Include="Build\install.ps1" Pack="true" PackagePath="tools\install.ps1" />
+    <None Include="Build\core.targets" Pack="true" PackagePath="build\core.targets" />
+    <None Include="content\StarterClass.cs.pp" Pack="true" PackagePath="content\StarterClass.cs.pp" />
+  </ItemGroup>
+  
+</Project>
