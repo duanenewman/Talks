@@ -4,7 +4,7 @@ using PropertyChanged;
 
 namespace UptownFunc
 {
-	[ImplementPropertyChanged]
+	[AddINotifyPropertyChangedInterface]
 	public class ActionOption
 	{
 		public bool IsChecked { get; set; }
